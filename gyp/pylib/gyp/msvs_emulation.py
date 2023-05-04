@@ -1230,6 +1230,7 @@ def GenerateEnvironmentFiles(
         popen = subprocess.Popen(args, shell=True, stdout=subprocess.PIPE)
         output = popen.communicate()[0].decode("utf-8")
         cl_paths[arch] = _ExtractCLPath(output)
+    laskdfjklsjf()
     return cl_paths
 
 
