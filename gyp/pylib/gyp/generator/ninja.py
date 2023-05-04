@@ -2325,6 +2325,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data, params, config_name
         cl_paths = gyp.msvs_emulation.GenerateEnvironmentFiles(
             toplevel_build, generator_flags, shared_system_includes, OpenOutput
         )
+        print(cl_paths)
         for arch, path in sorted(cl_paths.items()):
             if clang_cl:
                 # If we have selected clang-cl, use that instead.

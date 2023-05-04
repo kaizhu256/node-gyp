@@ -5,6 +5,12 @@
 # found in the LICENSE file.
 
 
+import os
+import sys
+print(os.getcwd())
+# !! sys.exit()
+# !! import .generator
+
 import copy
 import gyp.input
 import argparse
@@ -14,6 +20,15 @@ import shlex
 import sys
 import traceback
 from gyp.common import GypError
+
+def debugInline(*argv): # noqa=N802
+    """This function will print <arg> to stderr and then return <arg0>."""
+    arg0 = argv[0] if argv else None
+    print("\n\ndebugInline", file=sys.stderr)
+    print(*argv, file=sys.stderr)
+    print("\n")
+    return arg0
+
 
 # Default debug modes for GYP
 debug = {}
@@ -95,7 +110,7 @@ def Load(
         if path not in sys.path:
             sys.path.insert(0, path)
     else:
-        generator_name = "gyp.generator." + format
+        generator_name = ("gyp.generator." + format)
 
     # These parameters are passed in order (as opposed to by key)
     # because ActivePython cannot handle key parameters to __import__.
@@ -150,6 +165,7 @@ def Load(
         params["parallel"],
         params["root_targets"],
     )
+    # !! debugInline(result)
     return [generator] + result
 
 
@@ -637,6 +653,18 @@ def gyp_main(args):
         # need to have dependencies defined before dependents reference them should
         # generate targets in the order specified in flat_list.
         generator.GenerateOutput(flat_list, targets, data, params)
+
+        # !! debugInline(flat_list)
+        # !! debugInline(data)
+        # !! print(flat_list, targets, data, params)
+        # !! import inspect
+        # !! print(
+            # !! inspect.getsource(generator.GenerateOutput)
+        # !! )
+        # !! global generator2
+        # !! generator2 = generator
+        # !! aa = __import__("gyp.generator.ninja", globals(), locals(), "gyp.generator.ninja")
+        # !! generator.ninja.GenerateOutput(flat_list, targets, data, params)
 
         if options.configs:
             valid_configs = targets[flat_list[0]]["configurations"]
