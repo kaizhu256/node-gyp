@@ -4,6 +4,16 @@
 
 process.title = 'node-gyp'
 
+function debugInline(...argList) {
+
+// this function will both print <argList> to stderr and return <argList>[0]
+
+    process.stdout.write("\n\ndebugInline\n");
+    process.stdout.write(String(argList) + "\n");
+    process.stdout.write("\n\n");
+    return argList[0];
+}
+
 const envPaths = require('env-paths')
 const gyp = require('../')
 const log = require('npmlog')
@@ -77,7 +87,14 @@ function run () {
     return
   }
 
+  //!! debugInline(prog.commands[command.name])
   prog.commands[command.name](command.args, function (err) {
+    var aa =prog.commands.build
+    //!! debugInline(process.cwd())
+    //!! debugInline(aa.toString())
+    //!! debugInline([
+        //!! 1, JSON.stringify(aa), 3, typeof(aa), 2
+    //!! ])
     if (err) {
       log.error(command.name + ' error')
       log.error('stack', err.stack)
